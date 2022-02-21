@@ -12,6 +12,8 @@ using UnityEngine;
 /// </summary>
 public class PlayerController : m_CharacterController
 {
+    [Header( "MOVEMENT" )]
+
     /// <summary>
     ///     <para>
     ///         Saves latest input from movement interface device for moving the
@@ -25,7 +27,9 @@ public class PlayerController : m_CharacterController
     ///         Vector3 describing the player's desired direction of travel
     ///     </para>
     /// </summary>
+    [SerializeField]
     private Vector3 desiredDirection = Vector3.zero;
+
 
     private void Update()
     {

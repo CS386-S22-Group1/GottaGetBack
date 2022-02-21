@@ -17,7 +17,7 @@ public class Class : ScriptableObject
     ///         The name of this class
     ///     </para>
     /// </summary>
-    public string className = "";
+    public string className = "Default";
 
     /// <summary>
     ///     <para>
@@ -41,7 +41,7 @@ public class Class : ScriptableObject
     ///         class
     ///     </para>
     /// </summary>
-    public float moveSpeed = 20.000000f;
+    public float moveSpeed = 10.000000f;
 
     /// <summary>
     ///     <para>

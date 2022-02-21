@@ -27,49 +27,6 @@ public class m_CharacterController : MonoBehaviour
     protected Class playerClass;
 
 
-    [Header( "GROUND DETECTION" )]
-
-    /// <summary>
-    ///     A flag which identifies if the player is standing on an object that
-    ///     is on the ground layer
-    ///
-    ///     Note: The name given to the "ground layer" is user defined
-    ///
-    ///     Note: This flag is intended to be updated with a call to the
-    ///     Grounded() method every fixed update; this is simply done in the
-    ///     interest of performance
-    /// </summary>
-    protected bool grounded;
-
-    /// <summary>
-    ///     Used for groundCheck position and radius debugging
-    /// </summary>
-    [SerializeField]
-    private bool showGroundChecking;
-
-    /// <summary>
-    ///     Used to define the maximum vertical distance the player object can
-    ///     be above the ground and still be considered on the ground
-    /// </summary>
-    [Range(0f, 1f)]
-    [SerializeField]
-    protected float checkForGroundDist;
-
-    /// <summary>
-    ///     Reference to an arbitrary point in space, maintained by an empty
-    ///     game object which marks the center of a sphere with a radius equal
-    ///     to checkForGroundDist
-    /// </summary>
-    [SerializeField]
-    protected Transform groundCheck;
-
-    /// <summary>
-    ///     Determines what layer is "ground"
-    /// </summary>
-    [SerializeField]
-    protected LayerMask groundMask;
-
-
     [Header( "COMPONENTS" )]
 
     /// <summary>
@@ -130,46 +87,8 @@ public class m_CharacterController : MonoBehaviour
         // apply a force with needed acceleration in relation to this
         // object's mass
         body.AddForce( new Vector3( neededAcceleration.x,
-                                    body.velocity.y,
-                                    neededAcceleration.z ) * body.mass
+                                    neededAcceleration.y,
+                                    0.000000f ) * body.mass
                                   );
-    }
-
-    /// <summary>
-    ///     Checks for objects on groundMask within a specified radius
-    /// </summary>
-    /// 
-    /// <returns>
-    ///     Boolean identifying if the player is standing on top of an object
-    ///     that is on the "ground mask"
-    /// </returns>
-    protected bool Grounded()
-    {
-        return Physics.CheckSphere( groundCheck.position, checkForGroundDist,
-                                    groundMask );
-    }
-
-    /// <summary>
-    ///     OnDrawGizmos is called regardless; this method renders a wire
-    ///     sphere, with a maximum radius of 1, to the game scene
-    ///
-    ///     Note: User must set showGroundChecking to true in the inspector
-    ///           before the wire sphere will appear
-    /// </summary>
-    private void OnDrawGizmos()
-    {
-        try
-        {
-            if ( showGroundChecking )
-            {
-                Gizmos.color = Color.blue;
-                Gizmos.DrawWireSphere( groundCheck.position,
-                                       checkForGroundDist );
-            }
-        }
-        catch( UnassignedReferenceException )
-        {
-            Debug.LogWarning( "Missing reference to a ground check position" );
-        }
     }
 }
