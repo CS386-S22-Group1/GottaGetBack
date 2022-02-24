@@ -15,5 +15,4 @@ MonoBehaviour:
   className: Default
   classHealth: 100
   classArmor: 0
-  moveSpeed: 7
-  acceleration: 50
+  moveSpeed: 6

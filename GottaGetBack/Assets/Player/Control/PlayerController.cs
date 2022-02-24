@@ -12,7 +12,7 @@ using UnityEngine;
 /// </summary>
 public class PlayerController : m_CharacterController
 {
-    [Header( "MOVEMENT" )]
+    [Header( "INPUT" )]
 
     /// <summary>
     ///     <para>
@@ -24,11 +24,10 @@ public class PlayerController : m_CharacterController
 
     /// <summary>
     ///     <para>
-    ///         Vector3 describing the player's desired direction of travel
+    ///         Vector2 describing the player's desired direction of travel
     ///     </para>
     /// </summary>
-    [SerializeField]
-    private Vector3 desiredDirection = Vector3.zero;
+    private Vector2 desiredDirection = Vector2.zero;
 
 
     private void Update()

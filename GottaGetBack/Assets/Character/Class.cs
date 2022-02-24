@@ -42,12 +42,4 @@ public class Class : ScriptableObject
     ///     </para>
     /// </summary>
     public float moveSpeed = 10.000000f;
-
-    /// <summary>
-    ///     <para>
-    ///         Determines how fast the player will reach their moveSpeed when
-    ///         player as this class
-    ///     </para>
-    /// </summary>
-    public float acceleration = 50.000000f;
 }
