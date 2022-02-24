@@ -13,7 +13,7 @@ using UnityEngine;
 ///         Author: Num0Programmer
 ///     </para>
 /// </summary>
-[RequireComponent( typeof( Rigidbody ) )]
+[RequireComponent( typeof( Rigidbody2D ) )]
 public class m_CharacterController : MonoBehaviour
 {
     [Header( "CLASS" )]
@@ -25,6 +25,25 @@ public class m_CharacterController : MonoBehaviour
     /// </summary>
     [SerializeField]
     protected Class playerClass;
+
+    [Header( "MOVEMENT" )]
+
+    /// <summary>
+    ///     <para>
+    ///         The maximum amount to move the current velocity this update
+    ///         toward the desired velocity
+    ///     </para>
+    /// </summary>
+    [Range( 0.010000f, 0.100000f )]
+    [SerializeField]
+    private float velocitySmoother = 0.050000f;
+
+    /// <summary>
+    ///     <para>
+    ///         Store for the player's current velocity this update
+    ///     </para>
+    /// </summary>
+    private Vector2 refVelocity = Vector2.zero;
 
 
     [Header( "COMPONENTS" )]
@@ -43,11 +62,11 @@ public class m_CharacterController : MonoBehaviour
     ///     Reference to the Rigidbody component which is appears on the player
     ///     object
     /// </summary>
-    protected Rigidbody body;
+    protected Rigidbody2D body;
 
     private void Awake()
     {
-        body = GetComponent<Rigidbody>();
+        body = GetComponent<Rigidbody2D>();
     }
 
     /// <summary>
@@ -57,38 +76,13 @@ public class m_CharacterController : MonoBehaviour
     /// </summary>
     ///
     /// <param name="inDesiredDirection">
-    ///     A normalized Vector3 in which the player desires to accelerate
+    ///     A normalized Vector2 in which the player desires to accelerate
     /// </param>
-    protected virtual void Move( Vector3 inDesiredDirection )
+    protected virtual void Move( Vector2 inDesiredDirection )
     {
-        // define a Vector3 to hold the calculated velocity left to gain
-        // before reaching maximum velocity
-        Vector3 velocityToGain;
+        Vector2 desiredVelocity = inDesiredDirection * playerClass.moveSpeed;
 
-        // define a Vector3 to hold the found acceleration
-        Vector3 neededAcceleration;
-
-        // find velocity left to gain before reaching maximum velocity
-        velocityToGain = ( inDesiredDirection * playerClass.moveSpeed ) -
-                                                                  body.velocity;
-
-        // find the acceleration, for this time update, to reach maximum
-        // velocity
-        neededAcceleration = velocityToGain / Time.fixedDeltaTime;
-
-        // move the player's current velocity closer to the found
-        // acceleration vector
-        neededAcceleration =
-            Vector3.MoveTowards( body.velocity,
-                                 neededAcceleration,
-                                 playerClass.acceleration / Time.fixedDeltaTime
-                               );
-
-        // apply a force with needed acceleration in relation to this
-        // object's mass
-        body.AddForce( new Vector3( neededAcceleration.x,
-                                    neededAcceleration.y,
-                                    0.000000f ) * body.mass
-                                  );
+        body.velocity = Vector2.SmoothDamp( body.velocity, desiredVelocity,
+                                            ref refVelocity, velocitySmoother );
     }
 }
