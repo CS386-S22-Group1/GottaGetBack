@@ -20,6 +20,17 @@ using UnityEngine;
 /// </summary>
 public class Character : MonoBehaviour
 {
+    [Header( "CHARACTER CLASS" )]
+
+    /// <summary>
+    ///     <para>
+    ///         Class this character is
+    ///     </para>
+    /// </summary>
+    [SerializeField]
+    private CharacterClass characterClass;
+
+
     [Header( "CURRENT STATS" )]
 
     /// <summary>
@@ -35,6 +46,13 @@ public class Character : MonoBehaviour
     ///     </para>
     /// </summary>
     protected int currentArmor;
+
+
+    private void Awake()
+    {
+        currentHealth = characterClass.classHealth;
+        currentArmor = characterClass.classArmor;
+    }
 
     /// <summary>
     ///     <para>

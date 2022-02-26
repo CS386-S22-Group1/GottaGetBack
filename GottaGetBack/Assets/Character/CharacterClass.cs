@@ -10,7 +10,7 @@ using UnityEngine;
 ///     </para>
 /// </summary>
 [CreateAssetMenu( fileName = "DefaultClass", menuName = "New Class" )]
-public class Class : ScriptableObject
+public class CharacterClass : ScriptableObject
 {
     /// <summary>
     ///     <para>
