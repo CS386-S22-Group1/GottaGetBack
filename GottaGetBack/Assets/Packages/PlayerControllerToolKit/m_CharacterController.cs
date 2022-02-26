@@ -24,7 +24,7 @@ public class m_CharacterController : MonoBehaviour
     ///     </para>
     /// </summary>
     [SerializeField]
-    protected Class playerClass;
+    protected CharacterClass playerClass;
 
     [Header( "MOVEMENT" )]
 
@@ -49,20 +49,11 @@ public class m_CharacterController : MonoBehaviour
     [Header( "COMPONENTS" )]
 
     /// <summary>
-    ///     Reference to an arbitrary point in space, maintainded by a Camera
-    ///     object, which represents the position and rotation attributes of the
-    ///     camera accompanying the player object
-    /// </summary>
-    /*
-    [SerializeField]
-    protected Transform cam;
-    */
-
-    /// <summary>
     ///     Reference to the Rigidbody component which is appears on the player
     ///     object
     /// </summary>
     protected Rigidbody2D body;
+
 
     private void Awake()
     {
