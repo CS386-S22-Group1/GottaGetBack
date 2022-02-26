@@ -76,4 +76,14 @@ public class m_CharacterController : MonoBehaviour
         body.velocity = Vector2.SmoothDamp( body.velocity, desiredVelocity,
                                             ref refVelocity, velocitySmoother );
     }
+
+    protected virtual void Rotate( Vector2 inMousePosition )
+    {
+        Vector2 pointDirection = inMousePosition - body.position;
+
+        float pointAngle = Mathf.Atan2( pointDirection.y,
+                                        pointDirection.x ) * Mathf.Rad2Deg;
+
+        body.rotation = pointAngle;
+    }
 }

@@ -178,11 +178,8 @@ public class Ranged : Item
         spawnedBody.AddForce( spawnedProjectile.transform.forward * 200f );
         */
 
-        Debug.DrawLine( transform.position,
-                        new Vector3( transform.position.x + 100f,
-                                     transform.position.y,
-                                     transform.position.z - 2f ),
-                        Color.cyan );
+        Debug.DrawRay( transform.position, transform.right, Color.cyan,
+                       5.000000f );
 
         // decrease shotLeft
         shotLeft--;
