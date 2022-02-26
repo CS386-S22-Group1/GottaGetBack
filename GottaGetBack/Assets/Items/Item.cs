@@ -18,5 +18,6 @@ public class Item : MonoBehaviour
     ///         Identifies if the player is currently wearing/holding this item
     ///     </para>
     /// </summary>
+    [SerializeField]
     protected bool equipped = false;
 }

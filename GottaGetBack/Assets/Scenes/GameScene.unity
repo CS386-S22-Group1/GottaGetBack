@@ -221,7 +221,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerClass: {fileID: 11400000, guid: 4a3cebee6e7bb40648ed9330db353f20, type: 2}
-  velocitySmoother: 0.1
+  velocitySmoother: 0.07
 --- !u!50 &115871310
 Rigidbody2D:
   serializedVersion: 4
