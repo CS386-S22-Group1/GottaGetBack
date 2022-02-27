@@ -84,15 +84,12 @@ public class RangedData : ScriptableObject
 
     /// <summary>
     ///     <para>
-    ///         Projectile to be launched
+    ///         Projectile data
     ///     </para>
     ///
     ///     <para>
-    ///         Notes:
-    ///         <list type="bullet">
-    ///             Is a GameObject Prefab
-    ///         </list>
+    ///         Note: should have a GameObject that is the projectile to be shot
     ///     </para>
     /// </summary>
-    public GameObject ammunition;
+    public ProjectileData ammunition;
 }

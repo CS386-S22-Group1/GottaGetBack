@@ -35,6 +35,9 @@ public class Ranged : Item
     /// </remarks>
     private int shotLeft = 1;
 
+    [SerializeField]
+    private bool useProjectile = false;
+
 
     [Header( "PROJECTILE HEADING" )]
 
@@ -66,6 +69,7 @@ public class Ranged : Item
     /// </summary>
     private bool shooting = false;
 
+
     [Header( "TIMERS" )]
 
     /// <summary>
@@ -81,6 +85,18 @@ public class Ranged : Item
     ///     </para>
     /// </summary>
     private float fireRateTimer = 0.000000f;
+
+
+    [Header( "FIRE POINT" )]
+
+    /// <summary>
+    ///     <para>
+    ///         Transform point in space representative of the end of this
+    ///         ranged weapon's barrel
+    ///     </para>
+    /// </summary>
+    [SerializeField]
+    private Transform firePoint;
 
 
     private void Awake()
@@ -132,11 +148,25 @@ public class Ranged : Item
 
         if ( rangedData.isAutomatic )
         {
-            shooting = Input.GetKey( KeyCode.Mouse0 );
+            if ( useProjectile )
+            {
+                shooting = Input.GetKey( KeyCode.Mouse0 );
+            }
+            else
+            {
+                shooting = Input.GetKey( KeyCode.Mouse1 );
+            }
         }
         else
         {
-            shooting = Input.GetKeyDown( KeyCode.Mouse0 );
+            if ( useProjectile )
+            {
+                shooting = Input.GetKeyDown( KeyCode.Mouse0 );
+            }
+            else
+            {
+                shooting = Input.GetKeyDown( KeyCode.Mouse1 );
+            }
         }
     }
 
@@ -161,25 +191,58 @@ public class Ranged : Item
     /// </summary>
     private void Shoot()
     {
-        Ray shotHeading = new Ray( transform.position, transform.right );
+        RaycastHit2D outHit;
 
         // figure a "spreaded" path for the bullet
 
         /* Built in because I will run the pros and cons of hit-scan vs.
          * projectiles by the group and see what people think
          * 
-        // spawn a bullet, and add some force to it in on the determined forward
-        // vector
-        GameObject spawnedProjectile = Instantiate( rangedData.ammunition,
-                                       transform.position, transform.rotation );
+         */
 
-        Rigidbody2D spawnedBody = spawnedProjectile.GetComponent<Rigidbody2D>();
+        if ( useProjectile )
+        {
+            // spawn a bullet, and add some force to it in on the determined forward
+            // vector
+            GameObject spawnedProjectile = Instantiate(
+                                            rangedData.ammunition.projectile,
+                                            firePoint.position,
+                                            firePoint.rotation );
 
-        spawnedBody.AddForce( spawnedProjectile.transform.forward * 200f );
-        */
+            Rigidbody2D spawnedBody =
+                                  spawnedProjectile.GetComponent<Rigidbody2D>();
 
-        Debug.DrawRay( transform.position, transform.right, Color.cyan,
-                       5.000000f );
+            spawnedBody.AddForce( firePoint.right * 20f, ForceMode2D.Impulse ); // will have to fix that magic number
+        }
+        else
+        {
+            Rigidbody2D enemyBody;
+            Character collidedCharater;
+
+            outHit = Physics2D.Raycast( firePoint.position, firePoint.right, 100f );
+
+            try
+            {
+                if ( outHit.collider.TryGetComponent<Rigidbody2D>( out enemyBody ) )
+                {
+                    enemyBody.AddForce( firePoint.right *
+                                        rangedData.ammunition.explosionForce,
+                                        ForceMode2D.Impulse );
+                }
+
+                if ( outHit.collider.TryGetComponent<Character>( out collidedCharater ) )
+                {
+                    collidedCharater.UpdateHealth( -rangedData.ammunition.damage );
+                }
+            }
+            catch( System.NullReferenceException )
+            {
+                /* added this because Unity doesn't know how to handle itself */
+            }
+
+            Debug.DrawRay( firePoint.position, firePoint.right, Color.cyan,
+                           5.000000f );
+        }
 
         // decrease shotLeft
         shotLeft--;
