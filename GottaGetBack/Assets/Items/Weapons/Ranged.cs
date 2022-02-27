@@ -212,7 +212,7 @@ public class Ranged : Item
             Rigidbody2D spawnedBody =
                                   spawnedProjectile.GetComponent<Rigidbody2D>();
 
-            spawnedBody.AddForce( firePoint.right * 20f, ForceMode2D.Impulse );
+            spawnedBody.AddForce( firePoint.right * 20f, ForceMode2D.Impulse ); // will have to fix that magic number
         }
         else
         {
@@ -226,8 +226,8 @@ public class Ranged : Item
                 if ( outHit.collider.TryGetComponent<Rigidbody2D>( out enemyBody ) )
                 {
                     enemyBody.AddForce( firePoint.right *
-                                        rangedData.ammunition.explosionForce *
-                                        enemyBody.mass, ForceMode2D.Impulse );
+                                        rangedData.ammunition.explosionForce,
+                                        ForceMode2D.Impulse );
                 }
 
                 if ( outHit.collider.TryGetComponent<Character>( out collidedCharater ) )

@@ -21,4 +21,4 @@ MonoBehaviour:
   attackSpeed: 2
   focusInterval: 10
   stoppingDistance: 2
-  viewRange: 11
+  viewRange: 100
