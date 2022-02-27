@@ -9,7 +9,7 @@ using UnityEngine;
 ///         Author(s): Num0Programmer
 ///     </para>
 /// </summary>
-[CreateAssetMenu( fileName = "DefaultClass", menuName = "New Class" )]
+[CreateAssetMenu( fileName = "DefaultClass", menuName = "Character/New Class" )]
 public class CharacterClass : ScriptableObject
 {
     /// <summary>
