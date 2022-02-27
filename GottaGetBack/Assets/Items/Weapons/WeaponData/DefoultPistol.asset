@@ -19,4 +19,4 @@ MonoBehaviour:
   spread: 0
   reloadSpeed: 0.5
   fireRate: 0.5
-  ammunition: {fileID: 0}
+  ammunition: {fileID: 11400000, guid: 7e27b901423994b74b4e28c2e42c1082, type: 2}
