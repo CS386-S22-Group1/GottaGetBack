@@ -24,7 +24,7 @@ public class m_CharacterController : MonoBehaviour
     ///     </para>
     /// </summary>
     [SerializeField]
-    protected CharacterClass playerClass;
+    protected CharacterClass characterClass;
 
     [Header( "MOVEMENT" )]
 
@@ -36,14 +36,14 @@ public class m_CharacterController : MonoBehaviour
     /// </summary>
     [Range( 0.010000f, 0.100000f )]
     [SerializeField]
-    private float velocitySmoother = 0.050000f;
+    protected float velocitySmoother = 0.050000f;
 
     /// <summary>
     ///     <para>
     ///         Store for the player's current velocity this update
     ///     </para>
     /// </summary>
-    private Vector2 refVelocity = Vector2.zero;
+    protected Vector2 refVelocity = Vector2.zero;
 
 
     [Header( "COMPONENTS" )]
@@ -62,24 +62,33 @@ public class m_CharacterController : MonoBehaviour
 
     /// <summary>
     ///     <para>
-    ///         Accelerates a player in their desired direction
+    ///         Moves this character toward a desired direction
     ///     </para>
     /// </summary>
     ///
     /// <param name="inDesiredDirection">
-    ///     A normalized Vector2 in which the player desires to accelerate
+    ///     Vector2 direction in which to move this character
     /// </param>
     protected virtual void Move( Vector2 inDesiredDirection )
     {
-        Vector2 desiredVelocity = inDesiredDirection * playerClass.moveSpeed;
+        Vector2 desiredVelocity = inDesiredDirection * characterClass.moveSpeed;
 
         body.velocity = Vector2.SmoothDamp( body.velocity, desiredVelocity,
-                                            ref refVelocity, velocitySmoother );
+                            ref refVelocity, Time.fixedDeltaTime );
     }
 
-    protected virtual void Rotate( Vector2 inMousePosition )
+    /// <summary>
+    ///     <para>
+    ///         Rotates this character object toward a desired point
+    ///     </para>
+    /// </summary>
+    /// 
+    /// <param name="inLookPosition">
+    ///     Vector2 position to look at in the game world
+    /// </param>
+    protected virtual void Rotate( Vector2 inLookPosition )
     {
-        Vector2 pointDirection = inMousePosition - body.position;
+        Vector2 pointDirection = inLookPosition - body.position;
 
         float pointAngle = Mathf.Atan2( pointDirection.y,
                                         pointDirection.x ) * Mathf.Rad2Deg;

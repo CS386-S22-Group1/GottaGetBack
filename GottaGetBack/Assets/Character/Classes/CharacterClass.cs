@@ -12,12 +12,16 @@ using UnityEngine;
 [CreateAssetMenu( fileName = "DefaultClass", menuName = "Character/New Class" )]
 public class CharacterClass : ScriptableObject
 {
+    [Header( "NAME" )]
+
     /// <summary>
     ///     <para>
     ///         The name of this class
     ///     </para>
     /// </summary>
     public string className = "Default";
+
+    [Header( "STATISTICS" )]
 
     /// <summary>
     ///     <para>
@@ -34,6 +38,13 @@ public class CharacterClass : ScriptableObject
     ///     </para>
     /// </summary>
     public int classArmor = 0;
+
+    /// <summary>
+    ///     <para>
+    ///         Used in modifying how much damage dealt by a weapon
+    ///     </para>
+    /// </summary>
+    public int damageModifier = 0;
 
     /// <summary>
     ///     <para>
