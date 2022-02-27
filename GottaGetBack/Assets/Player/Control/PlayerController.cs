@@ -29,12 +29,34 @@ public class PlayerController : m_CharacterController
     /// </summary>
     private Vector2 desiredDirection = Vector2.zero;
 
+    [Header( "ROTATION" )]
+
+    /// <summary>
+    ///     <para>
+    ///         Reference to the player's camera
+    ///     </para>
+    /// </summary>
+    [SerializeField]
+    private Camera playerCam;
+
+    /// <summary>
+    ///     <para>
+    ///         Vector2 holding the mouse's position in world space
+    ///     </para>
+    /// </summary>
+    private Vector2 mousePosition = Vector2.zero;
+
 
     private void Update()
     {
         GetInput();
+    }
 
+    private void FixedUpdate()
+    {
         Move( desiredDirection );
+
+        Rotate( mousePosition );
     }
 
     /// <summary>
@@ -47,7 +69,9 @@ public class PlayerController : m_CharacterController
         xInput = Input.GetAxisRaw( "Horizontal" );
         yInput = Input.GetAxisRaw( "Vertical" );
 
-        desiredDirection = transform.right * xInput + transform.up * yInput;
+        mousePosition = playerCam.ScreenToWorldPoint( Input.mousePosition );
+
+        desiredDirection = Vector2.right * xInput + Vector2.up * yInput;
         desiredDirection.Normalize();
     }
 }

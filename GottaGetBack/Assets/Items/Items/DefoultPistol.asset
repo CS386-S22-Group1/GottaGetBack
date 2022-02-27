@@ -15,7 +15,7 @@ MonoBehaviour:
   rangedName: Default Pistol
   magazineSize: 5
   isAutomatic: 0
-  roundsPerShot: 5
+  roundsPerShot: 1
   spread: 0
   reloadSpeed: 0.5
   fireRate: 0.5
