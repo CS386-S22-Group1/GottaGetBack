@@ -74,11 +74,29 @@ public class Character : MonoBehaviour
         Destroy( gameObject );
     }
 
+    /// <summary>
+    ///     <para>
+    ///         Gives the current armor of this character
+    ///     </para>
+    /// </summary>
+    /// 
+    /// <returns>
+    ///     The remaining hit points of this character
+    /// </returns>
     public int GetArmor()
     {
         return currentArmor;
     }
 
+    /// <summary>
+    ///     <para>
+    ///         Gives the current health of this character
+    ///     </para>
+    /// </summary>
+    /// 
+    /// <returns>
+    ///     The remaining hit points of this character
+    /// </returns>
     public int GetHealth()
     {
         return currentHealth;
