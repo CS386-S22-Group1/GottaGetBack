@@ -15,10 +15,10 @@ MonoBehaviour:
   className: Default Enemy
   classHealth: 100
   classArmor: 0
-  damageModifier: 6
+  damageModifier: 12
   moveSpeed: 6
   attackRange: 2
-  attackSpeed: 2
+  attackSpeed: 0.5
   focusInterval: 10
   stoppingDistance: 2
   viewRange: 100
