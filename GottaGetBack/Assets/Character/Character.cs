@@ -4,15 +4,6 @@ using UnityEngine;
 ///     <para>
 ///         A baseline for all characters (actors) within the game
 ///     </para>
-///
-///     <para>
-///         Note(s):
-///         
-///         <para>
-///             1. Armor update will be added when I am sure that is
-///                something we absolutely want and will use
-///         </para>
-///     </para>
 ///     
 ///     <para>
 ///         Author(s): Num0Programmer
@@ -69,7 +60,7 @@ public class Character : MonoBehaviour
     ///         object will be removed from the game scene
     ///     </para>
     /// </summary>
-    protected void Die()
+    protected virtual void Die()
     {
         Destroy( gameObject );
     }
