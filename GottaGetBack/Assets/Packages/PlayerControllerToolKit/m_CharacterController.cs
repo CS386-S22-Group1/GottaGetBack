@@ -1,3 +1,4 @@
+using Unity.Netcode;
 using UnityEngine;
 
 /// <summary>
@@ -14,7 +15,7 @@ using UnityEngine;
 ///     </para>
 /// </summary>
 [RequireComponent( typeof( Rigidbody2D ) )]
-public class m_CharacterController : MonoBehaviour
+public class m_CharacterController : NetworkBehaviour
 {
     [Header( "CLASS" )]
 
