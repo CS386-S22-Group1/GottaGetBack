@@ -6,6 +6,6 @@ public class Player : Character
     {
         base.Die();
 
-        GameManager.managerInstance.RespawnMenuOn();
+        //GameManager.managerInstance.RespawnMenuOn();
     }
 }
