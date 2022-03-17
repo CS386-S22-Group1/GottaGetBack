@@ -11,7 +11,7 @@ using UnityEngine;
 /// </summary>
 public class EnemyAI : m_CharacterController
 {
-    /*
+    
     [Header( "ENEMY CLASS" )]
 
     /// <summary>
@@ -86,7 +86,7 @@ public class EnemyAI : m_CharacterController
     {
         if ( target != null )
         {
-            Rotate( target.position );
+            //Rotate( target.position );
 
             MoveTo( target.position );
 
@@ -176,5 +176,5 @@ public class EnemyAI : m_CharacterController
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere( transform.position, enemyClass.attackRange );
     }
-    */
+    
 }
