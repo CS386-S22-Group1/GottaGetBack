@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 /// <summary>
@@ -7,7 +8,7 @@ using UnityEngine;
 /// 
 ///     Author: Num0Programmer
 /// </summary>
-public class Spawner : MonoBehaviour
+public class Spawner : NetworkBehaviour
 {
     [Header( "WAVE CONTROL" )]
 
@@ -80,22 +81,25 @@ public class Spawner : MonoBehaviour
 
     private void Update()
     {
-        _nextWaverTimer -= Time.deltaTime;
+        if ( NetworkManager.Singleton.IsServer )
+        {
+            _nextWaverTimer -= Time.deltaTime;
 
-        if ( _nextWaverTimer <= 0.000000f )
-        {
-            InitializeWave();
-        }
-        else if ( enemiesActive.Count > 0 )
-        {
-            _nextWaverTimer = TIME_TO_NEXT_WAVE;
-        }
-        else if ( !waveJustEnded )
-        {
-            waveJustEnded = true;
-        }
+            if ( _nextWaverTimer <= 0.000000f )
+            {
+                InitializeWave();
+            }
+            else if ( enemiesActive.Count > 0 )
+            {
+                _nextWaverTimer = TIME_TO_NEXT_WAVE;
+            }
+            else if ( !waveJustEnded )
+            {
+                waveJustEnded = true;
+            }
 
-        UpdateActiveEnemies();
+            UpdateActiveEnemies();
+        }
     }
 
     /// <summary>
