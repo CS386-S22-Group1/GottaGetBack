@@ -1,3 +1,4 @@
+using Unity.Netcode;
 using UnityEngine;
 
 public class Ranged : Item
@@ -112,18 +113,7 @@ public class Ranged : Item
         {
             GetInput();
 
-            if ( reloading && reloadTimer <= 0.000000f )
-            {
-                Reload();
-            }
-
-            if ( shooting && !reloading && bulletsLeft > 0 &&
-                 fireRateTimer <= 0.000000f )
-            {
-                Shoot();
-
-                bulletsLeft--;
-            }
+            UpdateServerRpc();
         }
     }
 
@@ -258,5 +248,28 @@ public class Ranged : Item
         shotLeft = rangedData.roundsPerShot;
 
         fireRateTimer = rangedData.fireRate;
+    }
+
+    [ServerRpc]
+    private void UpdateServerRpc()
+    {
+        UpdateClientRpc();
+    }
+
+    [ClientRpc]
+    private void UpdateClientRpc()
+    {
+        if ( reloading && reloadTimer <= 0.000000f )
+        {
+            Reload();
+        }
+
+        if ( shooting && !reloading && bulletsLeft > 0 &&
+             fireRateTimer <= 0.000000f )
+        {
+            Shoot();
+
+            bulletsLeft--;
+        }
     }
 }
