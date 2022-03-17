@@ -54,6 +54,8 @@ public class PlayerController : m_CharacterController
 
     private void FixedUpdate()
     {
+        if ( !IsOwner ) return;
+
         MoveServerRpc( desiredDirection );
 
         //Rotate( mousePosition );
