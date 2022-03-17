@@ -1,3 +1,4 @@
+using Unity.Netcode;
 using UnityEngine;
 
 /// <summary>
@@ -9,7 +10,7 @@ using UnityEngine;
 ///         Author(s): Num0Programmer
 ///     </para>
 /// </summary>
-public class Item : MonoBehaviour
+public class Item : NetworkBehaviour
 {
     [Header( "EQUPPED STATUS")]
 

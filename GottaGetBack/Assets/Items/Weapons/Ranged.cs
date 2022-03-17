@@ -108,7 +108,7 @@ public class Ranged : Item
 
     private void Update()
     {
-        if ( equipped )
+        if ( equipped && IsOwner )
         {
             GetInput();
 
