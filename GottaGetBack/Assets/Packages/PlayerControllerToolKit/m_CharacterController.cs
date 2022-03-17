@@ -70,12 +70,19 @@ public class m_CharacterController : NetworkBehaviour
     /// <param name="inDesiredDirection">
     ///     Vector2 direction in which to move this character
     /// </param>
-    protected virtual void Move( Vector2 inDesiredDirection )
+    [ClientRpc]
+    private void MoveClientRpc( Vector2 inDesiredDirection )
     {
         Vector2 desiredVelocity = inDesiredDirection * characterClass.moveSpeed;
 
         body.velocity = Vector2.SmoothDamp( body.velocity, desiredVelocity,
                             ref refVelocity, Time.fixedDeltaTime );
+    }
+
+    [ServerRpc]
+    protected void MoveServerRpc( Vector2 inDesiredDirection )
+    {
+        MoveClientRpc( inDesiredDirection );
     }
 
     /// <summary>
@@ -87,6 +94,7 @@ public class m_CharacterController : NetworkBehaviour
     /// <param name="inLookPosition">
     ///     Vector2 position to look at in the game world
     /// </param>
+    /*
     protected virtual void Rotate( Vector2 inLookPosition )
     {
         Vector2 pointDirection = inLookPosition - body.position;
@@ -96,4 +104,5 @@ public class m_CharacterController : NetworkBehaviour
 
         body.rotation = pointAngle;
     }
+    */
 }
