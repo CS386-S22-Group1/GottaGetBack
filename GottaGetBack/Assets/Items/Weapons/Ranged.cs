@@ -113,7 +113,18 @@ public class Ranged : Item
         {
             GetInput();
 
-            UpdateServerRpc();
+            if ( reloading && reloadTimer <= 0.000000f )
+            {
+                Reload();
+            }
+
+            if ( shooting && !reloading && bulletsLeft > 0 &&
+                 fireRateTimer <= 0.000000f )
+            {
+                Shoot();
+
+                bulletsLeft--;
+            }
         }
     }
 
@@ -192,17 +203,7 @@ public class Ranged : Item
 
         if ( useProjectile )
         {
-            // spawn a bullet, and add some force to it in on the determined forward
-            // vector
-            GameObject spawnedProjectile = Instantiate(
-                                            rangedData.ammunition.projectile,
-                                            firePoint.position,
-                                            firePoint.rotation );
-
-            Rigidbody2D spawnedBody =
-                                  spawnedProjectile.GetComponent<Rigidbody2D>();
-
-            spawnedBody.AddForce( firePoint.right * 20f, ForceMode2D.Impulse ); // will have to fix that magic number
+            SpawnProjectileServerRpc();
         }
         else
         {
@@ -250,26 +251,25 @@ public class Ranged : Item
         fireRateTimer = rangedData.fireRate;
     }
 
-    [ServerRpc]
-    private void UpdateServerRpc()
+    [ClientRpc]
+    private void SpawnProjectileClientRpc()
     {
-        UpdateClientRpc();
+        // spawn a bullet, and add some force to it in on the determined forward
+        // vector
+        GameObject spawnedProjectile = Instantiate(
+                                        rangedData.ammunition.projectile,
+                                        firePoint.position,
+                                        firePoint.rotation );
+
+        Rigidbody2D spawnedBody =
+                              spawnedProjectile.GetComponent<Rigidbody2D>();
+
+        spawnedBody.AddForce( firePoint.right * 20f, ForceMode2D.Impulse ); // will have to fix that magic number
     }
 
-    [ClientRpc]
-    private void UpdateClientRpc()
+    [ServerRpc]
+    private void SpawnProjectileServerRpc()
     {
-        if ( reloading && reloadTimer <= 0.000000f )
-        {
-            Reload();
-        }
-
-        if ( shooting && !reloading && bulletsLeft > 0 &&
-             fireRateTimer <= 0.000000f )
-        {
-            Shoot();
-
-            bulletsLeft--;
-        }
+        SpawnProjectileClientRpc();
     }
 }
