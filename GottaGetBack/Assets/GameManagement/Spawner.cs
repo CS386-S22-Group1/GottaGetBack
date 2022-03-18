@@ -106,7 +106,7 @@ public class Spawner : NetworkBehaviour
 
             if ( _nextWaverTimer <= 0.000000f )
             {
-                SpawnEnemiesClientRpc( MIN_ENEMIES, MAX_ENEMIES );
+                SpawnEnemiesServerRpc( MIN_ENEMIES, MAX_ENEMIES );
 
                 _nextWaverTimer = TIME_TO_NEXT_WAVE;
             }
@@ -121,7 +121,7 @@ public class Spawner : NetworkBehaviour
     {
         waveCount++;
 
-        SpawnEnemiesClientRpc( MIN_ENEMIES, MAX_ENEMIES);
+        SpawnEnemiesServerRpc( MIN_ENEMIES, MAX_ENEMIES);
 
         _nextWaverTimer = TIME_TO_NEXT_WAVE;
 
@@ -139,8 +139,8 @@ public class Spawner : NetworkBehaviour
     /// <param name="high_count">
     ///     integer maximum number of enemies to spawn
     /// </param>
-    [ClientRpc]
-    private void SpawnEnemiesClientRpc( int low_count, int high_count )
+    [ServerRpc]
+    private void SpawnEnemiesServerRpc( int low_count, int high_count )
     {
         int numZomebies = Random.Range( low_count, high_count );
 
