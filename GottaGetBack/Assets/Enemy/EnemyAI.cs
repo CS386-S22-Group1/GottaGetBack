@@ -1,3 +1,4 @@
+using Unity.Netcode;
 using UnityEngine;
 
 /// <summary>
@@ -84,17 +85,22 @@ public class EnemyAI : m_CharacterController
 
     private void FixedUpdate()
     {
-        if ( target != null )
+        if ( NetworkManager.Singleton.IsServer )
         {
-            //Rotate( target.position );
-
-            MoveTo( target.position );
-
-            if ( Vector2.Distance( body.position,
-                    target.position ) <= enemyClass.attackRange &&
-                    attackTimer <= 0.000000f )
+            if ( target != null )
             {
-                AttackTarget();
+                //Rotate( target.position );
+
+                MoveToClientRpc( target.position );
+
+                /*
+                if ( Vector2.Distance( body.position,
+                        target.position ) <= enemyClass.attackRange &&
+                        attackTimer <= 0.000000f )
+                {
+                    AttackTarget();
+                }
+                */
             }
         }
     }
@@ -124,7 +130,8 @@ public class EnemyAI : m_CharacterController
     ///         Moves this character toward a desired position in space
     ///     </para>
     /// </summary>
-    private void MoveTo( Vector2 inDesiredPosition )
+    [ClientRpc]
+    private void MoveToClientRpc( Vector2 inDesiredPosition )
     {
         float distance = Vector2.Distance( body.position, inDesiredPosition );
 
