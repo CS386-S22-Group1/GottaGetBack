@@ -45,8 +45,10 @@ public class Spawner : NetworkBehaviour
     /// <summary>
     ///     List of GameObject references to each zombie that is active in the scene
     /// </summary>
+    /*
     [SerializeField]
     private List<GameObject> enemiesActive;
+    */
 
 
     [Header( "ENEMY SPAWNING" )]
@@ -61,7 +63,7 @@ public class Spawner : NetworkBehaviour
     ///     Enemy prefab
     /// </summary>
     [SerializeField]
-    private GameObject enemyPrefab;
+    private NetworkObject enemyPrefab;
     
 
     [Header( "TIMERS" )]
@@ -85,6 +87,7 @@ public class Spawner : NetworkBehaviour
         {
             _nextWaverTimer -= Time.deltaTime;
 
+            /*
             if ( _nextWaverTimer <= 0.000000f )
             {
                 InitializeWave();
@@ -99,6 +102,14 @@ public class Spawner : NetworkBehaviour
             }
 
             UpdateActiveEnemies();
+            */
+
+            if ( _nextWaverTimer <= 0.000000f )
+            {
+                SpawnEnemiesClientRpc( MIN_ENEMIES, MAX_ENEMIES );
+
+                _nextWaverTimer = TIME_TO_NEXT_WAVE;
+            }
         }
     }
 
@@ -140,8 +151,15 @@ public class Spawner : NetworkBehaviour
         {
             spawner = enemySpawners[ Random.Range( 0, enemySpawners.Length ) ];
 
+            /*
             enemiesActive.Add( Instantiate( enemyPrefab, spawner.position,
                                             spawner.rotation, spawner.parent ) );
+            */
+
+            NetworkObject enemyInstance = Instantiate( enemyPrefab, spawner.position, spawner.rotation,
+                                                       spawner.parent );
+
+            enemyInstance.Spawn();
         }
     }
 
@@ -154,6 +172,7 @@ public class Spawner : NetworkBehaviour
     /// <param name="enemy">
     ///     GameObject reference to the zombie that will be destroyed
     /// </param>
+    /*
     public void UpdateActiveEnemies()
     {
         foreach( GameObject enemy in enemiesActive )
@@ -164,4 +183,5 @@ public class Spawner : NetworkBehaviour
             }
         }
     }
+    */
 }
