@@ -712,6 +712,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1086172010}
   - component: {fileID: 1086172011}
+  - component: {fileID: 1086172012}
   m_Layer: 0
   m_Name: Spawner
   m_TagString: Untagged
@@ -757,6 +758,22 @@ MonoBehaviour:
   - {fileID: 498553087}
   enemyPrefab: {fileID: 1302105173095770242, guid: 357999c677c754b42b607bfe7a6576a4, type: 3}
   _nextWaverTimer: 0
+--- !u!114 &1086172012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1086172009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 2702626213
+  AlwaysReplicateAsRoot: 0
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1 &1110115749
 GameObject:
   m_ObjectHideFlags: 0
