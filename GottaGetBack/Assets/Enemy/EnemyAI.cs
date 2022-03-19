@@ -45,6 +45,8 @@ public class EnemyAI : m_CharacterController
     /// </summary>
     private Transform target;
 
+    private NetworkVariable<Vector2> networkedBodyPosition = new NetworkVariable<Vector2>();
+
 
     [Header( "TIMERS" )]
 
@@ -88,7 +90,7 @@ public class EnemyAI : m_CharacterController
     {
         if ( IsServer && target != null )
         {
-            MoveToClientRpc( target.position );
+            MoveTo( target.position );
         }
     }
 
@@ -117,8 +119,7 @@ public class EnemyAI : m_CharacterController
     ///         Moves this character toward a desired position in space
     ///     </para>
     /// </summary>
-    [ClientRpc]
-    private void MoveToClientRpc( Vector2 inDesiredPosition )
+    private void MoveTo( Vector2 inDesiredPosition )
     {
         float distance = Vector2.Distance( body.position, inDesiredPosition );
 
@@ -127,6 +128,8 @@ public class EnemyAI : m_CharacterController
             body.position = Vector2.Lerp( body.position, inDesiredPosition,
                                 ToEnemyClass().moveSpeed * Time.fixedDeltaTime *
                                 velocitySmoother );
+
+            networkedBodyPosition.Value = body.position;
         }
     }
 
