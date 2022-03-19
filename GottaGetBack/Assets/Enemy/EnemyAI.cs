@@ -80,15 +80,18 @@ public class EnemyAI : m_CharacterController
 
     private void Update()
     {
-        GetInput();
-
-        if ( focusTimer <= 0.000000f )
+        if ( IsServer )
         {
-            target = Target();
+            GetInput();
 
-            // saves from having to make a duplicate instance of a CharacterClass
-            // to get data in the EnemyClass subclass
-            focusTimer = ToEnemyClass().focusInterval;
+            if ( focusTimer <= 0.000000f )
+            {
+                target = TargetClientRpc();
+
+                // saves from having to make a duplicate instance of a CharacterClass
+                // to get data in the EnemyClass subclass
+                focusTimer = ToEnemyClass().focusInterval;
+            }
         }
     }
 
@@ -153,7 +156,8 @@ public class EnemyAI : m_CharacterController
     /// <returns>
     ///     Transform component of a target
     /// </returns>
-    private Transform Target()
+    [ClientRpc]
+    private Transform TargetClientRpc()
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll( transform.position,
                                     ToEnemyClass().viewRange );
