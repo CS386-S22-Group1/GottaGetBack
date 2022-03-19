@@ -45,6 +45,12 @@ public class EnemyAI : m_CharacterController
     /// </summary>
     private Transform target;
 
+    /// <summary>
+    ///     <para>
+    ///         Rigidbody2D position reference; used to sync enemy positions in
+    ///         world space across the network
+    ///     </para>
+    /// </summary>
     private NetworkVariable<Vector2> networkedBodyPosition = new NetworkVariable<Vector2>();
 
 
@@ -62,14 +68,14 @@ public class EnemyAI : m_CharacterController
     ///         Time remaining until enemy will need to refocus
     ///     </para>
     /// </summary>
-    private float focusTimer = 0.000000f;
+    private float focusTimer;
 
 
     private void Start()
     {
         body = GetComponent<Rigidbody2D>();
 
-        target = Target();
+        focusTimer = 0.000000f;
     }
 
     private void Update()
@@ -135,12 +141,12 @@ public class EnemyAI : m_CharacterController
 
     /// <summary>
     ///     <para>
-    ///         Identifies a target position to move
+    ///         Identifies a gameobject to move toward
     ///     </para>
     ///
     ///     <para>
-    ///         Note: will discriminate on targeting a player or a position in
-    ///         space depending on multiple factors
+    ///         Note: will discriminate between targeting a player or a position
+    ///         in world space depending on multiple factors
     ///     </para>
     /// </summary>
     /// 
