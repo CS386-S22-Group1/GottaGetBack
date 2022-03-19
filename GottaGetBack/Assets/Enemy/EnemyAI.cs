@@ -45,8 +45,6 @@ public class EnemyAI : m_CharacterController
     /// </summary>
     private Transform target;
 
-    private NetworkVariable<Vector2> bodyPosition;
-
 
     [Header( "TIMERS" )]
 
@@ -91,8 +89,6 @@ public class EnemyAI : m_CharacterController
         if ( IsServer && target != null )
         {
             MoveToClientRpc( target.position );
-
-            body.position = bodyPosition.Value;
         }
     }
 
@@ -128,7 +124,7 @@ public class EnemyAI : m_CharacterController
 
         if ( distance >= ToEnemyClass().stoppingDistance )
         {
-            bodyPosition.Value = Vector2.Lerp( body.position, inDesiredPosition,
+            body.position = Vector2.Lerp( body.position, inDesiredPosition,
                                 ToEnemyClass().moveSpeed * Time.fixedDeltaTime *
                                 velocitySmoother );
         }
