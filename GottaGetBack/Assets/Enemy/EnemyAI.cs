@@ -75,18 +75,15 @@ public class EnemyAI : m_CharacterController
 
     private void Update()
     {
-        if ( IsServer )
+        GetInput();
+
+        if ( focusTimer <= 0.000000f )
         {
-            GetInput();
+            target = Target();
 
-            if ( focusTimer <= 0.000000f )
-            {
-                target = Target();
-
-                // saves from having to make a duplicate instance of a
-                // CharacterClass to get data in the EnemyClass subclass
-                focusTimer = ToEnemyClass().focusInterval;
-            }
+            // saves from having to make a duplicate instance of a
+            // CharacterClass to get data in the EnemyClass subclass
+            focusTimer = ToEnemyClass().focusInterval;
         }
     }
 
