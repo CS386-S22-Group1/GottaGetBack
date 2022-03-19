@@ -17,9 +17,5 @@ public class NetworkSpawner : NetworkBehaviour
 
             networkSquareInstance.Spawn();
         }
-        else
-        {
-            Debug.Log( "Beam me up Scottie. She's sucking shit again." );
-        }
     }
 }

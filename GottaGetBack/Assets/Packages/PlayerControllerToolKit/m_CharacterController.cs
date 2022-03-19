@@ -94,7 +94,6 @@ public class m_CharacterController : NetworkBehaviour
     /// <param name="inLookPosition">
     ///     Vector2 position to look at in the game world
     /// </param>
-    /*
     protected virtual void Rotate( Vector2 inLookPosition )
     {
         Vector2 pointDirection = inLookPosition - body.position;
@@ -104,5 +103,4 @@ public class m_CharacterController : NetworkBehaviour
 
         body.rotation = pointAngle;
     }
-    */
 }
