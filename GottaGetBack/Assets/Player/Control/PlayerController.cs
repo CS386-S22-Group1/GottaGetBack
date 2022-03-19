@@ -46,7 +46,12 @@ public class PlayerController : m_CharacterController
     /// </summary>
     private Vector2 mousePosition = Vector2.zero;
 
-    
+
+    private void Start()
+    {
+        playerCam = Camera.main;
+    }
+
     private void Update()
     {
         GetInput();
