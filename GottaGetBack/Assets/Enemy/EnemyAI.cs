@@ -86,7 +86,7 @@ public class EnemyAI : m_CharacterController
 
             if ( focusTimer <= 0.000000f )
             {
-                TargetClientRpc();
+                target = Target();
 
                 // saves from having to make a duplicate instance of a
                 // CharacterClass to get data in the EnemyClass subclass
@@ -156,8 +156,7 @@ public class EnemyAI : m_CharacterController
     /// <returns>
     ///     Transform component of a target
     /// </returns>
-    [ClientRpc]
-    private void TargetClientRpc()
+    private Transform Target()
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll( transform.position,
                                     ToEnemyClass().viewRange );
@@ -166,11 +165,11 @@ public class EnemyAI : m_CharacterController
         {
             if ( collider.gameObject.CompareTag( targetTag ) )
             {
-                target = collider.transform;
+                return collider.transform;
             }
         }
 
-        target = null;
+        return null;
     }
 
     /// <summary>
