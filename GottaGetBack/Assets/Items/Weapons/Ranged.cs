@@ -1,3 +1,4 @@
+using Unity.Netcode;
 using UnityEngine;
 
 public class Ranged : Item
@@ -108,7 +109,7 @@ public class Ranged : Item
 
     private void Update()
     {
-        if ( equipped )
+        if ( equipped && IsOwner )
         {
             GetInput();
 
@@ -202,17 +203,7 @@ public class Ranged : Item
 
         if ( useProjectile )
         {
-            // spawn a bullet, and add some force to it in on the determined forward
-            // vector
-            GameObject spawnedProjectile = Instantiate(
-                                            rangedData.ammunition.projectile,
-                                            firePoint.position,
-                                            firePoint.rotation );
-
-            Rigidbody2D spawnedBody =
-                                  spawnedProjectile.GetComponent<Rigidbody2D>();
-
-            spawnedBody.AddForce( firePoint.right * 20f, ForceMode2D.Impulse ); // will have to fix that magic number
+            SpawnProjectileServerRpc();
         }
         else
         {
@@ -258,5 +249,27 @@ public class Ranged : Item
         shotLeft = rangedData.roundsPerShot;
 
         fireRateTimer = rangedData.fireRate;
+    }
+
+    [ClientRpc]
+    private void SpawnProjectileClientRpc()
+    {
+        // spawn a bullet, and add some force to it in on the determined forward
+        // vector
+        GameObject spawnedProjectile = Instantiate(
+                                        rangedData.ammunition.projectile,
+                                        firePoint.position,
+                                        firePoint.rotation );
+
+        Rigidbody2D spawnedBody =
+                              spawnedProjectile.GetComponent<Rigidbody2D>();
+
+        spawnedBody.AddForce( firePoint.right * 20f, ForceMode2D.Impulse ); // will have to fix that magic number
+    }
+
+    [ServerRpc]
+    private void SpawnProjectileServerRpc()
+    {
+        SpawnProjectileClientRpc();
     }
 }

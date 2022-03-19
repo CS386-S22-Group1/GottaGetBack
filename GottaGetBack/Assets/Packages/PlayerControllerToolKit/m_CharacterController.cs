@@ -1,3 +1,4 @@
+using Unity.Netcode;
 using UnityEngine;
 
 /// <summary>
@@ -14,7 +15,7 @@ using UnityEngine;
 ///     </para>
 /// </summary>
 [RequireComponent( typeof( Rigidbody2D ) )]
-public class m_CharacterController : MonoBehaviour
+public class m_CharacterController : NetworkBehaviour
 {
     [Header( "CLASS" )]
 
@@ -69,12 +70,19 @@ public class m_CharacterController : MonoBehaviour
     /// <param name="inDesiredDirection">
     ///     Vector2 direction in which to move this character
     /// </param>
-    protected virtual void Move( Vector2 inDesiredDirection )
+    [ClientRpc]
+    private void MoveClientRpc( Vector2 inDesiredDirection )
     {
         Vector2 desiredVelocity = inDesiredDirection * characterClass.moveSpeed;
 
         body.velocity = Vector2.SmoothDamp( body.velocity, desiredVelocity,
                             ref refVelocity, Time.fixedDeltaTime );
+    }
+
+    [ServerRpc]
+    protected void MoveServerRpc( Vector2 inDesiredDirection )
+    {
+        MoveClientRpc( inDesiredDirection );
     }
 
     /// <summary>

@@ -1,3 +1,4 @@
+using Unity.Netcode;
 using UnityEngine;
 
 /// <summary>
@@ -19,7 +20,7 @@ public class EnemyAI : m_CharacterController
     ///         environment and the player
     ///     </para>
     /// </summary>
-    private EnemyClass enemyClass;
+    //private EnemyClass enemyClass;
 
 
     [Header( "TARGETING INFORMATION" )]
@@ -44,6 +45,8 @@ public class EnemyAI : m_CharacterController
     /// </summary>
     private Transform target;
 
+    private NetworkVariable<Vector2> networkedBodyPosition = new NetworkVariable<Vector2>();
+
 
     [Header( "TIMERS" )]
 
@@ -64,7 +67,7 @@ public class EnemyAI : m_CharacterController
 
     private void Start()
     {
-        enemyClass = ( EnemyClass ) characterClass;
+        body = GetComponent<Rigidbody2D>();
 
         target = Target();
     }
@@ -77,24 +80,17 @@ public class EnemyAI : m_CharacterController
         {
             target = Target();
 
-            focusTimer = enemyClass.focusInterval;
+            // saves from having to make a duplicate instance of a CharacterClass
+            // to get data in the EnemyClass subclass
+            focusTimer = ToEnemyClass().focusInterval;
         }
     }
 
     private void FixedUpdate()
     {
-        if ( target != null )
+        if ( IsServer && target != null )
         {
-            Rotate( target.position );
-
             MoveTo( target.position );
-
-            if ( Vector2.Distance( body.position,
-                    target.position ) <= enemyClass.attackRange &&
-                    attackTimer <= 0.000000f )
-            {
-                AttackTarget();
-            }
         }
     }
 
@@ -107,9 +103,9 @@ public class EnemyAI : m_CharacterController
     {
         Character targetCharacter = target.GetComponent<Character>();
 
-        targetCharacter.UpdateHealth( -enemyClass.damageModifier );
+        targetCharacter.UpdateHealth( -ToEnemyClass().damageModifier );
 
-        attackTimer = enemyClass.attackSpeed;
+        attackTimer = ToEnemyClass().attackSpeed;
     }
 
     private void GetInput()
@@ -127,11 +123,13 @@ public class EnemyAI : m_CharacterController
     {
         float distance = Vector2.Distance( body.position, inDesiredPosition );
 
-        if ( distance >= enemyClass.stoppingDistance )
+        if ( distance >= ToEnemyClass().stoppingDistance )
         {
             body.position = Vector2.Lerp( body.position, inDesiredPosition,
-                                enemyClass.moveSpeed * Time.fixedDeltaTime *
+                                ToEnemyClass().moveSpeed * Time.fixedDeltaTime *
                                 velocitySmoother );
+
+            networkedBodyPosition.Value = body.position;
         }
     }
 
@@ -152,7 +150,7 @@ public class EnemyAI : m_CharacterController
     private Transform Target()
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll( transform.position,
-                                    enemyClass.viewRange );
+                                    ToEnemyClass().viewRange );
 
         foreach ( Collider2D collider in colliders )
         {
@@ -165,14 +163,35 @@ public class EnemyAI : m_CharacterController
         return null;
     }
 
+    /// <summary>
+    ///     <para>
+    ///         Makes getting enemy data easier by getting the character class as
+    ///         an EnemyClass
+    ///     </para>
+    ///
+    ///     <para>
+    ///         Intended to be a temporary fix until I can figure a better way to
+    ///         grab data without having to add an extra CharacterClass subclass
+    ///         type - I speak of course of the enemyClass variable I have commented
+    ///         out
+    ///     </para>
+    /// </summary>
+    /// 
+    /// <returns>
+    ///     characterClass as an EnemyClass
+    /// </returns>
+    private EnemyClass ToEnemyClass()
+    {
+        return ( EnemyClass ) characterClass;
+    }
+
     private void OnDrawGizmos()
     {
-        enemyClass = ( EnemyClass ) characterClass;
-
         Gizmos.color = Color.cyan;
-        Gizmos.DrawWireSphere( transform.position, enemyClass.viewRange );
+        Gizmos.DrawWireSphere( transform.position, ToEnemyClass().viewRange );
 
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere( transform.position, enemyClass.attackRange );
+        Gizmos.DrawWireSphere( transform.position, ToEnemyClass().attackRange );
     }
+    
 }

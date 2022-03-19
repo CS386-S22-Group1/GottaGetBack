@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 /// <summary>
@@ -7,7 +8,7 @@ using UnityEngine;
 /// 
 ///     Author: Num0Programmer
 /// </summary>
-public class Spawner : MonoBehaviour
+public class Spawner : NetworkBehaviour
 {
     [Header( "WAVE CONTROL" )]
 
@@ -44,8 +45,10 @@ public class Spawner : MonoBehaviour
     /// <summary>
     ///     List of GameObject references to each zombie that is active in the scene
     /// </summary>
+    /*
     [SerializeField]
     private List<GameObject> enemiesActive;
+    */
 
 
     [Header( "ENEMY SPAWNING" )]
@@ -60,7 +63,7 @@ public class Spawner : MonoBehaviour
     ///     Enemy prefab
     /// </summary>
     [SerializeField]
-    private GameObject enemyPrefab;
+    private NetworkObject enemyPrefab;
     
 
     [Header( "TIMERS" )]
@@ -80,22 +83,34 @@ public class Spawner : MonoBehaviour
 
     private void Update()
     {
-        _nextWaverTimer -= Time.deltaTime;
+        if ( NetworkManager.Singleton.IsServer )
+        {
+            _nextWaverTimer -= Time.deltaTime;
 
-        if ( _nextWaverTimer <= 0.000000f )
-        {
-            InitializeWave();
-        }
-        else if ( enemiesActive.Count > 0 )
-        {
-            _nextWaverTimer = TIME_TO_NEXT_WAVE;
-        }
-        else if ( !waveJustEnded )
-        {
-            waveJustEnded = true;
-        }
+            /*
+            if ( _nextWaverTimer <= 0.000000f )
+            {
+                InitializeWave();
+            }
+            else if ( enemiesActive.Count > 0 )
+            {
+                _nextWaverTimer = TIME_TO_NEXT_WAVE;
+            }
+            else if ( !waveJustEnded )
+            {
+                waveJustEnded = true;
+            }
 
-        UpdateActiveEnemies();
+            UpdateActiveEnemies();
+            */
+
+            if ( _nextWaverTimer <= 0.000000f )
+            {
+                SpawnEnemiesServerRpc( MIN_ENEMIES, MAX_ENEMIES );
+
+                _nextWaverTimer = TIME_TO_NEXT_WAVE;
+            }
+        }
     }
 
     /// <summary>
@@ -106,7 +121,7 @@ public class Spawner : MonoBehaviour
     {
         waveCount++;
 
-        SpawnEnemies( MIN_ENEMIES, MAX_ENEMIES);
+        SpawnEnemiesServerRpc( MIN_ENEMIES, MAX_ENEMIES);
 
         _nextWaverTimer = TIME_TO_NEXT_WAVE;
 
@@ -124,7 +139,8 @@ public class Spawner : MonoBehaviour
     /// <param name="high_count">
     ///     integer maximum number of enemies to spawn
     /// </param>
-    private void SpawnEnemies( int low_count, int high_count )
+    [ServerRpc]
+    private void SpawnEnemiesServerRpc( int low_count, int high_count )
     {
         int numZomebies = Random.Range( low_count, high_count );
 
@@ -135,8 +151,15 @@ public class Spawner : MonoBehaviour
         {
             spawner = enemySpawners[ Random.Range( 0, enemySpawners.Length ) ];
 
+            /*
             enemiesActive.Add( Instantiate( enemyPrefab, spawner.position,
                                             spawner.rotation, spawner.parent ) );
+            */
+
+            NetworkObject enemyInstance = Instantiate( enemyPrefab, spawner.position, spawner.rotation,
+                                                       spawner.parent );
+
+            enemyInstance.Spawn();
         }
     }
 
@@ -149,6 +172,7 @@ public class Spawner : MonoBehaviour
     /// <param name="enemy">
     ///     GameObject reference to the zombie that will be destroyed
     /// </param>
+    /*
     public void UpdateActiveEnemies()
     {
         foreach( GameObject enemy in enemiesActive )
@@ -159,4 +183,5 @@ public class Spawner : MonoBehaviour
             }
         }
     }
+    */
 }
