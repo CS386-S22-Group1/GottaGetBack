@@ -27,7 +27,7 @@ public class EnemyAI : m_CharacterController
 
     /// <summary>
     ///     <para>
-    ///         String tag on all players
+    ///         Tag that identifies a player object
     ///     </para>
     /// </summary>
     [SerializeField]
@@ -35,19 +35,14 @@ public class EnemyAI : m_CharacterController
 
     /// <summary>
     ///     <para>
-    ///         Transform component of target
-    ///     </para>
-    ///
-    ///     <para>
-    ///         Note: will differ between players and determined points in space
-    ///         as the enemy decides which actions are best
+    ///         Transform component of any gameobject to be targeted
     ///     </para>
     /// </summary>
     private Transform target;
 
     /// <summary>
     ///     <para>
-    ///         Rigidbody2D position reference; used to sync enemy positions in
+    ///         Vector2 position reference; used to sync enemy positions in
     ///         world space across the network
     ///     </para>
     /// </summary>
@@ -99,6 +94,8 @@ public class EnemyAI : m_CharacterController
     {
         if ( IsServer && target != null )
         {
+            Rotate( target.position );
+
             MoveTo( target.position );
         }
     }
@@ -138,6 +135,8 @@ public class EnemyAI : m_CharacterController
                                 ToEnemyClass().moveSpeed * Time.fixedDeltaTime *
                                 velocitySmoother );
 
+            // ensures all instances of this enemy in a client's instance match
+            // with the server enemy instance
             networkedBodyPosition.Value = body.position;
         }
     }
@@ -148,8 +147,9 @@ public class EnemyAI : m_CharacterController
     ///     </para>
     ///
     ///     <para>
-    ///         Note: will discriminate between targeting a player or a position
-    ///         in world space depending on multiple factors
+    ///         Next step: to add discrimination between targetting a player, or
+    ///         some other point in space depending on a range of factors, such
+    ///         as enemy's current health
     ///     </para>
     /// </summary>
     /// 
