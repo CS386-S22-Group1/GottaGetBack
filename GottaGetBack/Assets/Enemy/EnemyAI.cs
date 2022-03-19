@@ -88,8 +88,8 @@ public class EnemyAI : m_CharacterController
             {
                 target = TargetClientRpc();
 
-                // saves from having to make a duplicate instance of a CharacterClass
-                // to get data in the EnemyClass subclass
+                // saves from having to make a duplicate instance of a
+                // CharacterClass to get data in the EnemyClass subclass
                 focusTimer = ToEnemyClass().focusInterval;
             }
         }
