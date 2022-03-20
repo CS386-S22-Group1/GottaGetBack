@@ -85,6 +85,12 @@ public class m_CharacterController : NetworkBehaviour
         MoveClientRpc( inDesiredDirection );
     }
 
+    [ClientRpc]
+    private void RotateClientRpc( float pointAngle )
+    {
+        body.rotation = pointAngle;
+    }
+
     /// <summary>
     ///     <para>
     ///         Rotates this character object toward a desired point
@@ -101,6 +107,6 @@ public class m_CharacterController : NetworkBehaviour
         float pointAngle = Mathf.Atan2( pointDirection.y,
                                         pointDirection.x ) * Mathf.Rad2Deg;
 
-        body.rotation = pointAngle;
+        RotateClientRpc( pointAngle );
     }
 }

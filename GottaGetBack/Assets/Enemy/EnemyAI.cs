@@ -27,7 +27,7 @@ public class EnemyAI : m_CharacterController
 
     /// <summary>
     ///     <para>
-    ///         String tag on all players
+    ///         Tag that identifies a player object
     ///     </para>
     /// </summary>
     [SerializeField]
@@ -35,16 +35,17 @@ public class EnemyAI : m_CharacterController
 
     /// <summary>
     ///     <para>
-    ///         Transform component of target
-    ///     </para>
-    ///
-    ///     <para>
-    ///         Note: will differ between players and determined points in space
-    ///         as the enemy decides which actions are best
+    ///         Transform component of any gameobject to be targeted
     ///     </para>
     /// </summary>
     private Transform target;
 
+    /// <summary>
+    ///     <para>
+    ///         Vector2 position reference; used to sync enemy positions in
+    ///         world space across the network
+    ///     </para>
+    /// </summary>
     private NetworkVariable<Vector2> networkedBodyPosition = new NetworkVariable<Vector2>();
 
 
@@ -62,14 +63,14 @@ public class EnemyAI : m_CharacterController
     ///         Time remaining until enemy will need to refocus
     ///     </para>
     /// </summary>
-    private float focusTimer = 0.000000f;
+    private float focusTimer;
 
 
     private void Start()
     {
         body = GetComponent<Rigidbody2D>();
 
-        target = Target();
+        focusTimer = 0.000000f;
     }
 
     private void Update()
@@ -80,8 +81,8 @@ public class EnemyAI : m_CharacterController
         {
             target = Target();
 
-            // saves from having to make a duplicate instance of a CharacterClass
-            // to get data in the EnemyClass subclass
+            // saves from having to make a duplicate instance of a
+            // CharacterClass to get data in the EnemyClass subclass
             focusTimer = ToEnemyClass().focusInterval;
         }
     }
@@ -90,6 +91,8 @@ public class EnemyAI : m_CharacterController
     {
         if ( IsServer && target != null )
         {
+            Rotate( target.position );
+
             MoveTo( target.position );
         }
     }
@@ -129,18 +132,21 @@ public class EnemyAI : m_CharacterController
                                 ToEnemyClass().moveSpeed * Time.fixedDeltaTime *
                                 velocitySmoother );
 
+            // ensures all instances of this enemy in a client's instance match
+            // with the server enemy instance
             networkedBodyPosition.Value = body.position;
         }
     }
 
     /// <summary>
     ///     <para>
-    ///         Identifies a target position to move
+    ///         Identifies a gameobject to move toward
     ///     </para>
     ///
     ///     <para>
-    ///         Note: will discriminate on targeting a player or a position in
-    ///         space depending on multiple factors
+    ///         Next step: to add discrimination between targetting a player, or
+    ///         some other point in space depending on a range of factors, such
+    ///         as enemy's current health
     ///     </para>
     /// </summary>
     /// 

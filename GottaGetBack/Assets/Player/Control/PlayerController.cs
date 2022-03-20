@@ -44,8 +44,13 @@ public class PlayerController : m_CharacterController
     ///         Vector2 holding the mouse's position in world space
     ///     </para>
     /// </summary>
-    //private Vector2 mousePosition = Vector2.zero;
+    private Vector2 mousePosition = Vector2.zero;
 
+
+    private void Start()
+    {
+        playerCam = Camera.main;
+    }
 
     private void Update()
     {
@@ -58,7 +63,7 @@ public class PlayerController : m_CharacterController
 
         MoveServerRpc( desiredDirection );
 
-        //Rotate( mousePosition );
+        Rotate( mousePosition );
     }
 
     /// <summary>
@@ -71,7 +76,8 @@ public class PlayerController : m_CharacterController
         xInput = Input.GetAxisRaw( "Horizontal" );
         yInput = Input.GetAxisRaw( "Vertical" );
 
-        //mousePosition = playerCam.ScreenToWorldPoint( Input.mousePosition );
+        // convert's the mouse's position on the screen to world coordinates
+        mousePosition = playerCam.ScreenToWorldPoint( Input.mousePosition );
 
         desiredDirection = Vector2.right * xInput + Vector2.up * yInput;
         desiredDirection.Normalize();

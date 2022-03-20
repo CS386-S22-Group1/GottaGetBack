@@ -15,8 +15,8 @@ GameObject:
   - component: {fileID: 1302105173095770248}
   - component: {fileID: 1302105173095770255}
   - component: {fileID: 6051982279730936321}
-  - component: {fileID: -2016605120308935293}
-  - component: {fileID: -993646269089640060}
+  - component: {fileID: -8542360034253877473}
+  - component: {fileID: -1140163733923484142}
   m_Layer: 0
   m_Name: EnemySquare
   m_TagString: Enemy
@@ -182,7 +182,7 @@ MonoBehaviour:
   AlwaysReplicateAsRoot: 0
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &-2016605120308935293
+--- !u!114 &-8542360034253877473
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -209,7 +209,7 @@ MonoBehaviour:
   InLocalSpace: 0
   Interpolate: 1
   CanCommitToTransform: 0
---- !u!114 &-993646269089640060
+--- !u!114 &-1140163733923484142
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -237,7 +237,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1302105174904057871
 Transform:
   m_ObjectHideFlags: 0
