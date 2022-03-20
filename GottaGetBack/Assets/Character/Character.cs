@@ -32,7 +32,7 @@ public class Character : NetworkBehaviour
     ///     </para>
     /// </summary>
     [SerializeField]
-    protected NetworkVariable<int> currentHealth;
+    protected int currentHealth;
 
     /// <summary>
     ///     <para>
@@ -40,18 +40,18 @@ public class Character : NetworkBehaviour
     ///     </para>
     /// </summary>
     [SerializeField]
-    protected NetworkVariable<int> currentArmor;
+    protected int currentArmor;
 
 
     private void Awake()
     {
-        currentHealth.Value = characterClass.classHealth;
-        currentArmor.Value = characterClass.classArmor;
+        currentHealth = characterClass.classHealth;
+        currentArmor = characterClass.classArmor;
     }
 
     private void Update()
     {
-        if ( currentHealth.Value <= 0 )
+        if ( currentHealth <= 0 )
         {
             Die();
         }
@@ -79,7 +79,7 @@ public class Character : NetworkBehaviour
     /// </returns>
     public int GetArmor()
     {
-        return currentArmor.Value;
+        return currentArmor;
     }
 
     /// <summary>
@@ -93,7 +93,7 @@ public class Character : NetworkBehaviour
     /// </returns>
     public int GetHealth()
     {
-        return currentHealth.Value;
+        return currentHealth;
     }
 
     /// <summary>
@@ -118,7 +118,7 @@ public class Character : NetworkBehaviour
     /// </param>
     public void UpdateArmor( int armorCtrl )
     {
-        currentArmor.Value += armorCtrl;
+        currentArmor += armorCtrl;
     }
 
     /// <summary>
@@ -143,6 +143,6 @@ public class Character : NetworkBehaviour
     /// </param>
     public void UpdateHealth( int healthCtrl )
     {
-        currentHealth.Value += healthCtrl;
+        currentHealth += healthCtrl;
     }
 }
