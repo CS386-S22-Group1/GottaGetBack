@@ -32,21 +32,44 @@ namespace EnemyManagement
         [SerializeField]
         private float timeBetweenWaves = 5.000000f;
 
-        [SerializeField]
-        private int enemiesLeftInWave = 0;
+        /// <summary>
+        ///     <para>
+        ///         Number of enemies left until this wave is considered to be
+        ///         finished
+        ///     </para>
+        /// </summary>
+        public int enemiesLeftInWave = 0;
 
 
         [Header( "ENEMY SPAWNING INFORMATION" )]
 
+        /// <summary>
+        ///     <para>
+        ///         NetworkObject component connected to the asset designated as
+        ///         the enemy
+        ///     </para>
+        /// </summary>
         [SerializeField]
         private NetworkObject networkEnemyPrefab;
 
+        /// <summary>
+        ///     <para>
+        ///         Transforms of specified spawn points where enemies will be
+        ///         placed into the world space
+        ///     </para>
+        /// </summary>
         [SerializeField]
         private Transform[] networkSpawnPoints;
 
 
         [Header( "TIMERS" )]
 
+        /// <summary>
+        ///     <para>
+        ///         Time left until the next wave begins
+        ///     </para>
+        /// </summary>
+        [SerializeField]
         private float timeUntilNextWave = 0.000000f;
 
 
@@ -54,7 +77,6 @@ namespace EnemyManagement
         {
             timeUntilNextWave = timeBetweenWaves;
         }
-
 
         private void Update()
         {
@@ -88,6 +110,8 @@ namespace EnemyManagement
             while ( enemiesSpawned < numEnemiesToSpawn )
             {
                 SpawnEnemy();
+
+                enemiesSpawned++;
             }
 
             enemiesLeftInWave = enemiesSpawned + 1;
