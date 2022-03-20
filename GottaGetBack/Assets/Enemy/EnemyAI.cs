@@ -201,6 +201,5 @@ namespace CharacterControl
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere( transform.position, ToEnemyClass().attackRange );
         }
-
     }
 }

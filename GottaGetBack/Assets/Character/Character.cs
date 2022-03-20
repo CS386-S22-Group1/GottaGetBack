@@ -1,3 +1,4 @@
+using Unity.Netcode;
 using UnityEngine;
 using CharacterStatistics;
 
@@ -10,7 +11,7 @@ using CharacterStatistics;
 ///         Author(s): Num0Programmer
 ///     </para>
 /// </summary>
-public class Character : MonoBehaviour
+public class Character : NetworkBehaviour
 {
     [Header( "CHARACTER CLASS" )]
 
@@ -38,6 +39,7 @@ public class Character : MonoBehaviour
     ///         Current armor points player retains
     ///     </para>
     /// </summary>
+    [SerializeField]
     protected int currentArmor;
 
 

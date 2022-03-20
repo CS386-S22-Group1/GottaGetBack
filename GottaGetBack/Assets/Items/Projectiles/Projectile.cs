@@ -1,7 +1,8 @@
+using Unity.Netcode;
 using UnityEngine;
 
 [RequireComponent( typeof( Rigidbody2D ) )]
-public class Projectile : MonoBehaviour
+public class Projectile : NetworkBehaviour
 {
     [Header( "PROJECTILE DATA" )]
 
