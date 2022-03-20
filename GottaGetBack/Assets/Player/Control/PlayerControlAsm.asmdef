@@ -1,0 +1,17 @@
+{
+    "name": "PlayerControlAsm",
+    "rootNamespace": "",
+    "references": [
+        "GUID:c5cd2697143e04e2fb4d080a9e2eb267",
+        "GUID:1491147abca9d7d4bb7105af628b223e"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
