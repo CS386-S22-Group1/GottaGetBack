@@ -1,3 +1,4 @@
+using Unity.Netcode;
 using UnityEngine;
 using CharacterStatistics;
 
@@ -10,7 +11,7 @@ using CharacterStatistics;
 ///         Author(s): Num0Programmer
 ///     </para>
 /// </summary>
-public class Character : MonoBehaviour
+public class Character : NetworkBehaviour
 {
     [Header( "CHARACTER CLASS" )]
 
@@ -31,25 +32,25 @@ public class Character : MonoBehaviour
     ///     </para>
     /// </summary>
     [SerializeField]
-    protected int currentHealth;
+    protected NetworkVariable<int> currentHealth;
 
     /// <summary>
     ///     <para>
     ///         Current armor points player retains
     ///     </para>
     /// </summary>
-    protected int currentArmor;
+    protected NetworkVariable<int> currentArmor;
 
 
     private void Awake()
     {
-        currentHealth = characterClass.classHealth;
-        currentArmor = characterClass.classArmor;
+        currentHealth.Value = characterClass.classHealth;
+        currentArmor.Value = characterClass.classArmor;
     }
 
     private void Update()
     {
-        if ( currentHealth <= 0 )
+        if ( currentHealth.Value <= 0 )
         {
             Die();
         }
@@ -77,7 +78,7 @@ public class Character : MonoBehaviour
     /// </returns>
     public int GetArmor()
     {
-        return currentArmor;
+        return currentArmor.Value;
     }
 
     /// <summary>
@@ -91,7 +92,7 @@ public class Character : MonoBehaviour
     /// </returns>
     public int GetHealth()
     {
-        return currentHealth;
+        return currentHealth.Value;
     }
 
     /// <summary>
@@ -116,7 +117,7 @@ public class Character : MonoBehaviour
     /// </param>
     public void UpdateArmor( int armorCtrl )
     {
-        currentArmor += armorCtrl;
+        currentArmor.Value += armorCtrl;
     }
 
     /// <summary>
@@ -141,6 +142,6 @@ public class Character : MonoBehaviour
     /// </param>
     public void UpdateHealth( int healthCtrl )
     {
-        currentHealth += healthCtrl;
+        currentHealth.Value += healthCtrl;
     }
 }
