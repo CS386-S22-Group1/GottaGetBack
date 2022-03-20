@@ -39,6 +39,7 @@ public class Character : NetworkBehaviour
     ///         Current armor points player retains
     ///     </para>
     /// </summary>
+    [SerializeField]
     protected NetworkVariable<int> currentArmor;
 
 
