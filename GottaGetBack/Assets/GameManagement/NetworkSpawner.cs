@@ -38,7 +38,7 @@ namespace EnemyManagement
         ///         finished
         ///     </para>
         /// </summary>
-        public int enemiesLeftInWave = 0;
+        public static int enemiesLeftInWave = 0;
 
 
         [Header( "ENEMY SPAWNING INFORMATION" )]
@@ -114,7 +114,7 @@ namespace EnemyManagement
                 enemiesSpawned++;
             }
 
-            enemiesLeftInWave = enemiesSpawned + 1;
+            enemiesLeftInWave = enemiesSpawned;
 
             timeUntilNextWave = timeBetweenWaves;
         }
