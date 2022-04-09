@@ -50,10 +50,18 @@ namespace CharacterControl
         /// </summary>
         public Vector2 mousePosition = Vector2.zero;
 
+        public Vector2 screenPos = Vector2.zero;
+
 
         private void Start()
         {
-            playerCam = Camera.main;
+            
+            // check if the player is not the local player
+            if( !IsLocalPlayer)
+            {
+                // disable the camera for this player since it does not belong to them
+                playerCam.enabled = false;
+            }
         }
 
         private void Update()
@@ -61,6 +69,7 @@ namespace CharacterControl
             if ( !IsOwner ) return;
 
             GetInput();
+            //Rotate( mousePosition );
         }
 
         private void FixedUpdate()
@@ -69,7 +78,7 @@ namespace CharacterControl
 
             MoveServerRpc( desiredDirection );
 
-            //Rotate( mousePosition );
+            Rotate( mousePosition );
         }
 
         /// <summary>
@@ -83,7 +92,9 @@ namespace CharacterControl
             yInput = Input.GetAxisRaw( "Vertical" );
 
             // convert's the mouse's position on the screen to world coordinates
-            //mousePosition = playerCam.ScreenToWorldPoint( Input.mousePosition );
+            screenPos = Input.mousePosition;
+            //screenPos.z = 5.0f;
+            mousePosition = playerCam.ScreenToWorldPoint( Input.mousePosition );
 
             desiredDirection = Vector2.right * xInput + Vector2.up * yInput;
             desiredDirection.Normalize();
