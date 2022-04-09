@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2820203482662368654
 Transform:
   m_ObjectHideFlags: 0
@@ -236,6 +236,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterClass: {fileID: 11400000, guid: 4a3cebee6e7bb40648ed9330db353f20, type: 2}
   currentHealth: 0
+  currentArmor: 0
 --- !u!114 &6113433258864212344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -250,7 +251,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterClass: {fileID: 11400000, guid: 4a3cebee6e7bb40648ed9330db353f20, type: 2}
   velocitySmoother: 0.07
+  xInput: 0
+  yInput: 0
+  desiredDirection: {x: 0, y: 0}
   playerCam: {fileID: 1645756173722176675}
+  mousePosition: {x: 0, y: 0, z: 0}
+  screenPos: {x: 0, y: 0, z: 0}
 --- !u!114 &-8755582565899223755
 MonoBehaviour:
   m_ObjectHideFlags: 0
