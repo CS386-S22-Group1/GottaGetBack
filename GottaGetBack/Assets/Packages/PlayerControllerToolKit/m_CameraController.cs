@@ -90,7 +90,7 @@ public class m_CameraController : MonoBehaviour
     ///     game object, which marks the center of the object the camera will
     ///     rotate about
     /// </summary>
-    protected Transform target;
+    public Transform target;
 
     /// <summary>
     ///     Uses the current pitch and yaw of the camera to rotate around the

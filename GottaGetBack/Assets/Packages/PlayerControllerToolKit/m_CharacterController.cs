@@ -99,6 +99,7 @@ namespace CharacterControl
         /// </param>
         protected void Rotate( Vector2 inLookPosition )
         {
+
             Vector2 pointDirection = inLookPosition - body.position;
 
             float pointAngle = Mathf.Atan2( pointDirection.y,

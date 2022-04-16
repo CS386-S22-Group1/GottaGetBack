@@ -50,12 +50,12 @@ namespace CharacterControl
         /// </summary>
         public Vector2 mousePosition = Vector2.zero;
 
-        public Vector2 screenPos = Vector2.zero;
+        public Vector3 screenPos;
 
 
         private void Start()
         {
-            
+            playerCam = Camera.main;
             // check if the player is not the local player
             if( !IsLocalPlayer)
             {
@@ -69,6 +69,7 @@ namespace CharacterControl
             if ( !IsOwner ) return;
 
             GetInput();
+            //Debug.Log(mousePosition);
             //Rotate( mousePosition );
         }
 
@@ -89,12 +90,16 @@ namespace CharacterControl
         private void GetInput()
         {
             xInput = Input.GetAxisRaw( "Horizontal" );
+            //Debug.Log(Input.mousePosition);
             yInput = Input.GetAxisRaw( "Vertical" );
 
             // convert's the mouse's position on the screen to world coordinates
             screenPos = Input.mousePosition;
-            //screenPos.z = 5.0f;
+            //Debug.Log(Input.mousePosition);
+
+            screenPos.z = 1f;
             mousePosition = playerCam.ScreenToWorldPoint( Input.mousePosition );
+            
 
             desiredDirection = Vector2.right * xInput + Vector2.up * yInput;
             desiredDirection.Normalize();
